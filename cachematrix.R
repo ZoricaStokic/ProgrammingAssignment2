@@ -1,3 +1,40 @@
+
+
+
+
+makeVector <- function(z = numeric()) {
+        n <- NULL                     #begins by setting the mean to NULL 
+                                       #as a placeholder for a future value
+        set <- function(b) {          #set the value of the vector
+                z <<- b               #assigning the value of z to y
+                n <<- NULL
+        }
+        get <- function() z            #get the value of the vector
+        setmean <- function(mean) n <<- mean
+        getmean <- function() n
+        list(set = set, get = get,    #returns the vector containing 
+                                      #all of the functions just defined
+             setmean = setmean,
+             getmean = getmean)
+}
+cachemean <- function(z, ...) {
+        n <- z$getmean()              #gets the mean from the cache 
+                                      #and skips the computation
+                                      #if the mean has already been calculated
+        if(!is.null(n)) {
+
+                message("getting cached data")
+                return(n)
+        }
+        data <- z$get()
+        n <- mean(data, ...)
+       z$setmean(n)                   #it calculates the mean of 
+                                      #the data and sets the value of the mean
+                                     #in the cache via the setmean function
+        n
+}
+
+
 makeCacheMatrix <- function(x = matrix()) {
     inv <- NULL              # sets the value of m to NULL
                              #-provides a default if cacheSolve has not 
